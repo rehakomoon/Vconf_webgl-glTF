@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# glTF Viewer for Vconf
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ブラウザ上で glTF / glb ファイルを表示する React 製のアプリケーションです。`React Three Fiber` と `@react-three/drei` を利用し、簡単に 3D モデルをアップロード・表示できます。ZIP 形式の glTF パッケージ (scene.gltf + scene.bin + textures) にも対応しており、表示後はサーバーへ送信することも可能です。
 
-## Available Scripts
+## 主な機能
+- `.glb` もしくは glTF 一式をまとめた `.zip` のアップロード
+- アップロードしたモデルのブラウザ表示
+- 送信ボタンによるファイルアップロード (php/api/upload.php)
+- サーバーとの接続確認 (php/api/ping.php)
 
-In the project directory, you can run:
+## セットアップ
+1. リポジトリを取得後、依存パッケージをインストールします。
+   ```bash
+   npm install
+   ```
+2. 開発サーバーを起動します。
+   ```bash
+   npm start
+   ```
+   デフォルトでは [http://localhost:3000](http://localhost:3000) でアプリが起動します。
 
-### `npm start`
+### ビルド
+本番用のビルドは以下で作成できます。
+```bash
+npm run build
+```
+`build/` ディレクトリに静的ファイルが出力されます。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### テスト
+```bash
+npm test
+```
+`react-scripts` によるテストランナーが起動します。
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## サーバーサイド
+`php/api` ディレクトリに簡易アップロード API が含まれています。PHP の実行環境があればそのまま利用できます。
 
-### `npm test`
+- `upload.php` : 受け取った `.zip` または `.glb` ファイルを `uploads/` ディレクトリに保存します。
+- `ping.php` : 接続確認用のエンドポイントです。
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## ライセンス
+このプロジェクトは MIT ライセンスです。
