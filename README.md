@@ -1,9 +1,10 @@
 # glTF Viewer for Vconf
 
-ブラウザ上で glTF / glb ファイルを表示する React 製のアプリケーションです。`React Three Fiber` と `@react-three/drei` を利用し、簡単に 3D モデルをアップロード・表示できます。ZIP 形式の glTF パッケージ (scene.gltf + scene.bin + textures) にも対応しており、表示後はサーバーへ送信することも可能です。
+ブラウザ上で glTF / glb ファイルを表示する React 製のアプリケーションです。`React Three Fiber` と `@react-three/drei` を利用し、簡単に 3D モデルをアップロード・表示できます。ZIP 形式の glTF パッケージ (scene.gltf + scene.bin + textures) にも対応しており、表示後はサーバーへ送信することも可能です。FBX 形式の場合は `/fbx` から ZIP 化したファイルを読み込めます。
 
 ## 主な機能
 - `.glb` もしくは glTF 一式をまとめた `.zip` のアップロード
+- `/fbx` では `.fbx` をまとめた `.zip` の表示にも対応
 - アップロードしたモデルのブラウザ表示
 - 送信ボタンによるファイルアップロード (php/api/upload.php)
 - サーバーとの接続確認 (php/api/ping.php)

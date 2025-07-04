@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 //import GltfViewer from "./pages/GltfViewer";
 //import Gltfdb from "./pages/GltfZipViewerWithIDB";
 import Check from "./pages/access_check";
+import FbxViewer from "./pages/FbxZipViewerWithIDB";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
 {/*        <Route path="/viewer-obj" element={<ObjViewer />} />
         <Route path="/viewer-gltf" element={<GltfViewer />} />
         <Route path="/gltfdb" element={<Gltfdb/>}/>*/}
+        <Route path="/fbx"        element={<FbxViewer />} />
         <Route path="/check"      element={<Check/>} />
         <Route path="*"           element={<Home />} />
       </Routes>
