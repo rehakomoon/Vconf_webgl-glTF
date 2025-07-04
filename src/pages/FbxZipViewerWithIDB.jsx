@@ -19,6 +19,57 @@ export default function FbxZipUploader() {
     };
   }, []);
 
+  const validateScene = async (scene, zip) => {
+    let error = null;
+
+    let polyCount = 0;
+    scene.traverse((obj) => {
+      if (obj.isMesh) {
+        const geo = obj.geometry;
+        polyCount += geo.index ? geo.index.count / 3 : geo.attributes.position.count / 3;
+        if (/[^\x01-\x7E]/.test(obj.name) || /\u3000/.test(obj.name)) {
+          error = "オブジェクト名に2Byte文字か全角スペースが含まれています";
+        }
+      }
+    });
+    if (polyCount > 20000) error = "ポリゴン数が2万を超えています";
+
+    const matSet = new Set();
+    scene.traverse((obj) => {
+      if (obj.isMesh) {
+        if (Array.isArray(obj.material)) obj.material.forEach((m) => matSet.add(m));
+        else matSet.add(obj.material);
+      }
+    });
+    if (matSet.size > 5) error = "マテリアル数が5を超えています";
+
+    if (zip) {
+      const textures = Object.values(zip.files).filter((f) => /\.(png|jpe?g)$/i.test(f.name));
+      if (textures.length > 1) error = "テクスチャ画像は1枚のみ許可です";
+      for (const imgEntry of textures) {
+        const blob = await imgEntry.async("blob");
+        const url = URL.createObjectURL(blob);
+        await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            if (img.width > 960 || img.height > 540) {
+              error = "テクスチャ解像度は960x540以下にしてください";
+            }
+            URL.revokeObjectURL(url);
+            resolve();
+          };
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            resolve();
+          };
+          img.src = url;
+        });
+      }
+    }
+
+    return error;
+  };
+
   const handleUpload = async () => {
     if (!fileToUpload) return;
     setIsUploading(true);
@@ -85,7 +136,12 @@ export default function FbxZipUploader() {
 
       new FBXLoader(manager).load(
         fileMap.get(fbxEntry),
-        (obj) => {
+        async (obj) => {
+          const errMsg = await validateScene(obj, zip);
+          if (errMsg) {
+            alert(errMsg);
+            return;
+          }
           setContent(<primitive object={obj} />);
           setFileToUpload(file);
         },
@@ -98,7 +154,13 @@ export default function FbxZipUploader() {
       blobUrls.current.push(url);
       new FBXLoader().load(
         url,
-        (obj) => {
+        async (obj) => {
+          const errMsg = await validateScene(obj);
+          if (errMsg) {
+            alert(errMsg);
+            URL.revokeObjectURL(url);
+            return;
+          }
           setContent(<primitive object={obj} />);
           setFileToUpload(file);
         },
@@ -113,7 +175,19 @@ export default function FbxZipUploader() {
   };
 
   return (
-    <div>
+    <div style={{ padding: "2rem" }}>
+      <h1>FBXビューワー</h1>
+      <p>
+        単体の <code>.fbx</code> または <code>.zip</code>（fbx ファイル一式） を
+        アップロードしてください。
+      </p>
+      <p>投稿するモデルは以下の条件を満たしてください。</p>
+      <ul>
+        <li>ポリゴン数は 20,000 以下</li>
+        <li>テクスチャは解像度 1K (960×540) 以下のものを 1 枚</li>
+        <li>マテリアル数は 5 個以下</li>
+        <li>オブジェクト名に 2 バイト文字や全角スペースを使用しない</li>
+      </ul>
       <input
         type="file"
         accept=".zip,.fbx"
