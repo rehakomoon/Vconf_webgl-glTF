@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import JSZip from "jszip";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import MultiViewCanvas from "../components/MultiViewCanvas";
 
 export default function GltfZipUploader() {
   const [content, setContent] = useState(null);
@@ -32,7 +31,7 @@ export default function GltfZipUploader() {
         }
       }
     });
-    if (polyCount > 20000) error = "ポリゴン数が2万を超えています";
+    //if (polyCount > 20000) error = "ポリゴン数が2万を超えています";
 
     const matSet = new Set();
     scene.traverse((obj) => {
@@ -182,13 +181,9 @@ export default function GltfZipUploader() {
         onChange={handleFile}
         style={{ marginBottom: 8 }}
       />
-
-      <Canvas style={{ height: 500, background: "#f0f0f0", marginBottom: 8 }}>
-        <ambientLight />
-        <directionalLight position={[5, 10, 5]} />
-        <OrbitControls />
+      <MultiViewCanvas style={{ height: 600, marginBottom: 16 }}>
         {content}
-      </Canvas>
+      </MultiViewCanvas>
 
       {content && fileToUpload && (
         <>

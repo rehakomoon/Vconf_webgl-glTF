@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+/* MultiView Canvas レスポンシブスタイル */
+/* @media (max-width: 768px) {
+  .multi-view-container {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 300px auto !important;
+  }
+  
+  .sub-views-container {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+  
+  .sub-canvas {
+    width: 120px !important;
+    height: 80px !important;
+    margin: 4px !important;
+  }
+} */

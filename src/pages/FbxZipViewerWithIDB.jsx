@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import JSZip from "jszip";
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import MultiViewCanvas from "../components/MultiViewCanvas";
 
 export default function FbxZipUploader() {
   const [content, setContent] = useState(null);
@@ -195,12 +194,9 @@ export default function FbxZipUploader() {
         style={{ marginBottom: 8 }}
       />
 
-      <Canvas style={{ height: 500, background: "#f0f0f0", marginBottom: 8 }}>
-        <ambientLight />
-        <directionalLight position={[5, 10, 5]} />
-        <OrbitControls />
+      <MultiViewCanvas style={{ height: 600, marginBottom: 16 }}>
         {content}
-      </Canvas>
+      </MultiViewCanvas>
 
       {content && fileToUpload && (
         <>
